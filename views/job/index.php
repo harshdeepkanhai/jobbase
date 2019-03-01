@@ -4,9 +4,6 @@ use yii\widgets\LinkPager;
 ?>
 <h2 class="page-header">Jobs <a class="btn btn-primary pull-right" href="/jobbase/web/index.php?r=job/create">Create</a>
 </h2>
-<?php if(null !== Yii::$app->session->getFlash('success')) : ?>
-    <div class="alert alert-success"><?php echo Yii::$app->session->getFlash('success'); ?></div>
-<?php endif; ?>
 
 <?php if(!empty($jobs)) : ?>
 <ul class="list-group">
