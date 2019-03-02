@@ -12,6 +12,26 @@ use app\models\Category;
 use app\models\Job;
 
 class JobController extends \yii\web\Controller{
+
+    /*
+     *  Access Control
+     */
+    public function behaviors() {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'edit', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['create', 'edit', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ]
+        ];
+    }
+
     public function actionIndex(){
         // Create Query
         $query = Job::find();
@@ -67,6 +87,11 @@ class JobController extends \yii\web\Controller{
     public function actionDelete($id){
         $job = Job::findOne($id);
 
+        // Check For Owner
+        if(Yii::$app->user->identity->id != $job->user_id) {
+            return $this->redirect('index.php?r=job');
+        }
+
         $job->delete();
         
         // Show Message
@@ -78,6 +103,11 @@ class JobController extends \yii\web\Controller{
 
     public function actionEdit($id){
         $job = Job::findOne($id);
+
+        // Check For Owner
+        if(Yii::$app->user->identity->id != $job->user_id) {
+            return $this->redirect('index.php?r=job');
+        }
 
         if ($job->load(Yii::$app->request->post())) {
             if ($job->validate()) {

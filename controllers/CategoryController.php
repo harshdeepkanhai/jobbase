@@ -11,6 +11,26 @@ use yii\filters\VerbFilter;
 use app\models\Category;
 
 class CategoryController extends \yii\web\Controller{
+
+    /*
+     *  Access Control
+     */
+    public function behaviors() {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create'],
+                'rules' => [
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ]
+        ];
+    }
+
     public function actionIndex(){
         // Create Query
         $query = Category::find();

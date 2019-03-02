@@ -1,9 +1,11 @@
 <a href="/jobbase/web/index.php?r=job">Back to Jobs</a>
 <h2 class="page-header"><?php echo $job->title; ?> 
     <small> in <?php echo $job->city; ?>, <?php echo $job->state; ?></small>
-    <span class="pull-right">
-        <a class="btn btn-default" href="/jobbase/web/index.php?r=job/edit&id=<?php echo $job->id; ?>">Edit</a> <a class="btn btn-danger" href="/jobbase/web/index.php?r=job/delete&id=<?php echo $job->id; ?>">Delete</a>
-    </span>
+    <?php if(Yii::$app->user->identity->id == $job->user_id) : ?>
+        <span class="pull-right">
+            <a class="btn btn-default" href="/jobbase/web/index.php?r=job/edit&id=<?php echo $job->id; ?>">Edit</a> <a class="btn btn-danger" href="/jobbase/web/index.php?r=job/delete&id=<?php echo $job->id; ?>">Delete</a>
+        </span>
+    <?php endif; ?>
 </h2>
 <?php if(!empty($job->description)) : ?>
 <div class="well">
